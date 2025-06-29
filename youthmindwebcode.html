@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YouthMind Survey</title>
+  <style>
+    :root {
+      --light-blush: #DCCBC7;
+      --mauve-rose: #CBB4B0;
+      --soft-gray: #A6A3A7;
+      --dusty-rose: #A58A89;
+      --deep-mauve: #766667;
+      --white: #ffffff;
+      --text-dark: #333333;
+    }
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: var(--light-blush);
+      color: var(--text-dark);
+      padding: 30px;
+      background-image:
+        url('data:image/svg+xml;utf8,<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="%23CBB4B0" stroke-opacity="0.1" stroke-width="1"><circle cx="60" cy="60" r="55"/><circle cx="60" cy="60" r="45"/><circle cx="60" cy="60" r="35"/><circle cx="60" cy="60" r="25"/><circle cx="60" cy="60" r="15"/></g></svg>');
+      background-repeat: repeat;
+      background-size: 120px 120px;
+    }
+    .container {
+      max-width: 800px;
+      background: var(--white);
+      margin: 0 auto;
+      padding: 40px 50px 50px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    h1 {
+      text-align: center;
+      color: var(--dusty-rose);
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: var(--deep-mauve);
+    }
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--soft-gray);
+      background-color: var(--light-blush);
+      color: var(--deep-mauve);
+      box-sizing: border-box;
+    }
+    input[type="number"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--dusty-rose);
+      background-color: #f6e9e7;
+    }
+    .radio-group {
+      margin-top: 8px;
+    }
+    .radio-group label {
+      margin-right: 15px;
+      font-weight: 400;
+      display: inline-block;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background-color: var(--light-blush);
+      transition: background-color 0.3s;
+    }
+    .radio-group input[type="radio"] {
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+    .radio-group label:hover {
+      background-color: var(--mauve-rose);
+      color: var(--white);
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 16px;
+      background-color: var(--dusty-rose);
+      color: var(--white);
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: var(--deep-mauve);
+    }
+    #statusMessage {
+      margin-top: 20px;
+      font-weight: 600;
+      text-align: center;
+      min-height: 1.4em;
+    }
+    #statusMessage.success {
+      color: var(--dusty-rose);
+    }
+    #statusMessage.error {
+      color: #b33a3a;
+    }
+    .floral-corner {
+      position: absolute;
+      width: 100px;
+      opacity: 0.12;
+      pointer-events: none;
+      fill: var(--dusty-rose);
+      stroke: var(--mauve-rose);
+      stroke-width: 1.5px;
+      z-index: 0;
+    }
+    .top-left {
+      top: 10px;
+      left: 10px;
+    }
+    .bottom-right {
+      bottom: 10px;
+      right: 10px;
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="container" role="main" aria-label="YouthMind personality survey form">
+    <h1>YouthMind Survey</h1>
+
+    <!-- Floral SVG corners -->
+    <svg class="floral-corner top-left" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M10 30 Q15 15 25 25 T40 20 Q45 30 35 40 Q25 50 15 40 Z" />
+      <circle cx="20" cy="20" r="3" />
+      <circle cx="30" cy="25" r="2" />
+    </svg>
+    <svg class="floral-corner bottom-right" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M10 30 Q15 15 25 25 T40 20 Q45 30 35 40 Q25 50 15 40 Z" />
+      <circle cx="20" cy="20" r="3" />
+      <circle cx="30" cy="25" r="2" />
+    </svg>
+
+    <form id="surveyForm">
+      <label for="age">Age (8-18):</label>
+      <input type="number" id="age" name="age" min="8" max="18" required />
+
+      <label for="gender">Gender:</label>
+      <select id="gender" name="gender" required>
+        <option value="" disabled selected>Select your gender</option>
+        <option value="female">Female</option>
+        <option value="male">Male</option>
+        <option value="nonbinary">Non-binary</option>
+        <option value="prefer_not">Prefer not to say</option>
+        <option value="other">Other</option>
+      </select>
+
+      <label for="techUse">Hours per day using smartphone/tablet:</label>
+      <select id="techUse" name="techUse" required>
+        <option value="" disabled selected>Select one</option>
+        <option value="less_1">Less than 1 hour</option>
+        <option value="1_3">1-3 hours</option>
+        <option value="4_6">4-6 hours</option>
+        <option value="7_plus">7 or more hours</option>
+      </select>
+
+      <div id="questionsContainer"></div>
+
+      <button type="submit" aria-label="Submit survey form">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="var(--white)" height="20" width="20" viewBox="0 0 24 24">
+          <path d="M12 2L15 8l7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
+        </svg>
+        Submit
+      </button>
+    </form>
+
+    <div id="statusMessage" role="alert" aria-live="polite"></div>
+  </div>
+
+  <script>
+ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyMSKfTAr6AdnjyXsFpAwLR-nTSxibjTfIP_xHtlbE0/dev';
+    const questions = [
+      "I see myself as someone who is talkative.",
+      "I see myself as someone who tends to be reserved.",
+      "I see myself as someone who is full of energy.",
+      "I see myself as someone who tends to be lazy.",
+      "I see myself as someone who is generally trusting.",
+      "I see myself as someone who tends to be disorganized.",
+      "I see myself as someone who is helpful and unselfish with others.",
+      "I see myself as someone who can be moody.",
+      "I see myself as someone who likes to cooperate with others.",
+      "I see myself as someone who gets nervous easily.",
+      "I see myself as someone who perseveres until the task is finished.",
+      "I see myself as someone who is emotionally stable and handles stress well.",
+      "I see myself as someone who has an active imagination.",
+      "I see myself as someone who is original and comes up with new ideas.",
+      "I see myself as someone who is considerate and kind to almost everyone.",
+      "I see myself as someone who is easily distracted.",
+      "I see myself as someone who remains calm in tense situations.",
+      "I see myself as someone who is curious about many different things."
+    ];
+
+    const container = document.getElementById("questionsContainer");
+    questions.forEach((q, idx) => {
+      const qNumber = idx + 1;
+      const block = document.createElement("div");
+      block.innerHTML = `
+        <label>${qNumber}. ${q}</label>
+        <div class="radio-group">
+          <label><input type="radio" name="q${qNumber}" value="1" required />Strongly Disagree</label>
+          <label><input type="radio" name="q${qNumber}" value="2" />Disagree</label>
+          <label><input type="radio" name="q${qNumber}" value="3" />Neutral</label>
+          <label><input type="radio" name="q${qNumber}" value="4" />Agree</label>
+          <label><input type="radio" name="q${qNumber}" value="5" />Strongly Agree</label>
+        </div>
+      `;
+      container.appendChild(block);
+    });
+
+    const form = document.getElementById('surveyForm');
+    const statusMessage = document.getElementById('statusMessage');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      statusMessage.textContent = '';
+      statusMessage.className = '';
+
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      for (const pair of formData.entries()) {
+        params.append(pair[0], pair[1]);
+      }
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: params,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      })
+      .then(res => res.text())
+      .then(text => {
+        if (text.trim() === "Success") {
+          statusMessage.textContent = "Thank you! Your response has been recorded.";
+          statusMessage.className = "success";
+          form.reset();
+        } else {
+          throw new Error(text);
+        }
+      })
+      .catch(err => {
+        statusMessage.textContent = "Error submitting the form. Please try again.";
+        statusMessage.className = "error";
+        console.error(err);
+      });
+    });
+  </script>
+</body>
+</html>
